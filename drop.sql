@@ -3,6 +3,8 @@ begin;
 DROP VIEW if exists payments;
 DROP VIEW if exists pilot_trips;
 DROP VIEW if exists trip_attractions_list;
+DROP VIEW if exists client_discounts;
+DROP VIEW if exists client_cash_back;
 
 DROP TABLE if exists countries CASCADE;
 DROP TABLE if exists cities CASCADE;
@@ -30,6 +32,8 @@ DROP FUNCTION if exists travels_both_directions;
 DROP FUNCTION if exists your_a_discount;
 DROP FUNCTION if exists your_t_discount;
 DROP FUNCTION if exists real_price;
+DROP FUNCTION if exists cash_back;
+DROP FUNCTION if exists sum_discounts;
 
 DROP SEQUENCE if exists foo;
 DROP SEQUENCE if exists seq;
@@ -62,6 +66,7 @@ DROP FUNCTION if exists check25;
 DROP FUNCTION if exists check26;
 DROP FUNCTION if exists check27;
 DROP FUNCTION if exists check28;
+DROP FUNCTION if exists check29;
 DROP FUNCTION if exists pesel_check;
 DROP FUNCTION if exists date_check;
 DROP FUNCTION if exists date_check2;

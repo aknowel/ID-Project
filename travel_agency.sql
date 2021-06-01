@@ -74,6 +74,27 @@ begin
 	end loop;
 	return result;
 end;
+
+create or replace function sum_discounts (cliect int, trip_date int) returns numeric as
+$$
+declare
+	result numeric=0;
+	x record;
+	t int;
+	sth numeric;
+begin
+	t=(select trip_id from trip_dates where id=$2);
+	for x in select * from trip_attractions ta join attractions a on a.id=ta.attraction_id where ta.trip_id=t and ta.mandatory=true loop
+		result=result+your_a_discount($1, x.attraction_id);
+	end loop;
+	for x in select * from trip_routes tr join travels tl on tr.travel_id=tl.id left outer join travel_price_changes tpc on tl.id=tpc.travel_id where trip_id=t loop
+		sth=x.base_price;
+		if (select starting_date from trip_dates where id=$2)+x.on_day*interval '1 day' between x.valid_since and x.valid_to then sth=sth-x.price_change*sth/100; end if;
+			result=result+ your_t_discount($1, x.travel_id);
+	end loop;
+	return result;
+end;
+
 $$ language plpgsql;
 
 create table statuses(
@@ -252,7 +273,7 @@ i integer=-1;
 BEGIN
 for p in select * from cities where country_id=Old.id loop
 for r in select * from travels where p.id=from_city or p.id=to_city loop
-return null;
+raise exception 'City from this country is in travels';
 end loop;
 end loop;
 for p in select * from cities where country_id=Old.id loop
@@ -266,7 +287,12 @@ CREATE TRIGGER check1 BEFORE delete ON countries
 FOR EACH ROW EXECUTE PROCEDURE check1();
 
 CREATE OR REPLACE FUNCTION check2() RETURNS trigger AS $check2$
+declare
+r record;
 BEGIN
+for r in select * from travels where old.id=from_city or old.id=to_city loop
+raise exception 'This city is in travels';
+end loop;
 delete from attractions where city_id=Old.id;
 return old;
 END;
@@ -277,6 +303,7 @@ FOR EACH ROW EXECUTE PROCEDURE check2();
 CREATE OR REPLACE FUNCTION check3() RETURNS trigger AS $check3$
 BEGIN
 delete from attraction_discounts where attraction_id=Old.id;
+delete from trip_attractions where attraction_id=Old.id;
 return old;
 END;
 $check3$ LANGUAGE plpgsql;
@@ -306,11 +333,10 @@ FOR EACH ROW EXECUTE PROCEDURE check5();
 
 CREATE OR REPLACE FUNCTION check6() RETURNS trigger AS $check6$
 BEGIN
-delete from pilot_warrants where trip_id=Old.id;
 delete from trip_dates where trip_id=Old.id;
 delete from trip_routes where trip_id=Old.id;
+delete from pilot_warrants where trip_id=Old.id;
 delete from trip_attractions where trip_id=Old.id;
-delete from client_trips where trip_id=Old.id;
 return old;
 END;
 $check6$ LANGUAGE plpgsql;
@@ -355,8 +381,13 @@ t boolean=false;
 begin
 select x as starting_date,y as finish_date, z as trip_id into p;
 for r in select k.id as id,starting_date, starting_date + tt.length*interval '1 day' as finish_date from (select pilot_id as id from pilot_warrants
-where trip_id=p.trip_id) k left outer join trip_dates t on t.pilot_id=k.id left outer join trips tt on tt.id=p.trip_id order by 1 loop 
+where trip_id=p.trip_id) k left outer join trip_dates t on t.pilot_id=k.id left outer join trips tt on tt.id=t.trip_id 
+left outer join (select pp.id as id,sum(case when td.id is null then 0 else 1 end) as c from pilots pp left outer join trip_dates td on pp.id=pilot_id group by pp.id) l
+on k.id=l.id order by l.c,k.id loop 
 if i=r.id  then
+if r.starting_date is null then
+return i;
+end if;
 if r.starting_date>=p.starting_date then
 if p.finish_date>r.starting_date then
 t=true;
@@ -373,11 +404,11 @@ return i;
 end if;
 i=r.id;
 t=false;
-if r.starting_date is not distinct from null then
+if r.starting_date is null then
 return i;
 end if;
 if r.starting_date>=p.starting_date then
-if p.finish_date>p.starting_date then
+if p.finish_date>r.starting_date then
 t=true;
 end if;
 end if;
@@ -437,9 +468,6 @@ return -1;
 end if;
 for r in select starting_date, starting_date + tt.length*interval '1 day' as finish_date 
 from trip_dates join trips tt on trip_id=tt.id where x=pilot_id loop 
-if r.starting_date is not distinct from null then
-return 1;
-end if;
 if r.starting_date>=p.starting_date then
 if p.finish_date>r.starting_date then
 return -1;
@@ -509,7 +537,10 @@ FOR EACH ROW EXECUTE PROCEDURE check10();
 CREATE OR REPLACE FUNCTION check11() RETURNS trigger AS $check11$
 declare
 BEGIN
+if old.country_id<>new.country_id then
 raise exception 'Update is not allowed! You can delete and insert instead!';
+end if;
+return new;
 END;
 $check11$ LANGUAGE plpgsql;
 CREATE TRIGGER check11 BEFORE update ON cities
@@ -710,7 +741,8 @@ end loop;
 raise exception 'Error';
 END;
 $check23$ LANGUAGE plpgsql;
-
+CREATE TRIGGER check23 BEFORE delete ON trip_routes
+FOR EACH ROW EXECUTE PROCEDURE check23();
 
 CREATE SEQUENCE seq START 1 INCREMENT BY 1;
  
@@ -828,7 +860,11 @@ d date;
 BEGIN
 select New.starting_date + length*interval '1 day' into d from trips t where t.id=New.trip_id; 
 New.pilot_id=find_pilot(New.starting_date,d,New.trip_id);
+if New.pilot_id=-1 then
+raise exception 'There is no available pilot for % trip now',p.id::text ;
+else
 return new;
+end if;
 END;
 $check26$ LANGUAGE plpgsql;
 CREATE TRIGGER check26 BEFORE insert ON trip_dates
@@ -869,6 +905,35 @@ $check28$ LANGUAGE plpgsql;
 CREATE TRIGGER check28 BEFORE insert or update ON trip_attractions
 FOR EACH ROW EXECUTE PROCEDURE check28();
 
+CREATE OR REPLACE FUNCTION check29() RETURNS trigger AS $check29$
+BEGIN
+delete from client_trips where trip_id=Old.id;
+return old;
+END;
+$check29$ LANGUAGE plpgsql;
+CREATE TRIGGER check29 BEFORE delete ON trip_dates
+FOR EACH ROW EXECUTE PROCEDURE check29();
+
+create or replace function cash_back(x integer, y integer) returns numeric as
+$$
+declare
+d date;
+i numeric;
+begin
+select trip_id into i from trip_dates where id=y;
+select starting_date into d from trip_dates where id=i;
+if d-current_timestamp>3*interval'1 month' then
+select paid_amount into i from client_trips where client_id=x and trip_id=y;
+return i;
+end if;
+if d-current_timestamp>1*interval'1 month' then
+select paid_amount into i from client_trips where client_id=x and trip_id=y;
+return round(i/2,2);
+end if;
+return round(0,2);
+end;
+$$
+language plpgsql;
 
 create view payments as
 select c.id, c.name, c.surname, t.name "trip name", ct.paid_amount, real_price(c.id, td.id) "price"
@@ -883,5 +948,15 @@ create view trip_attractions_list as
 select t.id, t.name "trip name", a.name "attraction name", a.type, a.price, 
 case when ta.mandatory=true then 'Yes' else 'No' end "mandatory"from
 trips t join trip_attractions ta on t.id=ta.trip_id join attractions a on ta.attraction_id=a.id order by t.id;
+
+create view client_discounts as
+select c.id, c.name, c.surname, t.name "trip name", sum_discounts(c.id, td.id) "discounts"
+from clients c join client_trips ct on c.id=ct.client_id join trip_dates td on ct.trip_id=td.id
+join trips t on td.trip_id=t.id;
+
+create view client_cash_back as
+select c.id, c.name, c.surname, t.name "trip name", cash_back(c.id, td.id) "cash back"
+from clients c join client_trips ct on c.id=ct.client_id join trip_dates td on ct.trip_id=td.id
+join trips t on td.trip_id=t.id;
 
 commit;

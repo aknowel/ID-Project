@@ -5,29 +5,29 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.MenuController">
+<AnchorPane fx:id="board" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.MenuController">
    <children>
       <ImageView fitHeight="720.0" fitWidth="1280.0" opacity="0.75" pickOnBounds="true">
          <image>
             <Image url="@../images/background.jpg" />
          </image>
       </ImageView>
-      <Button layoutX="575.0" layoutY="207.0" mnemonicParsing="false" stylesheets="@../css/menu.css" text="Trips" />
-      <Button layoutX="555.0" layoutY="270.0" mnemonicParsing="false" stylesheets="@../css/menu.css" text="My trips" />
-      <Button layoutX="525.0" layoutY="333.0" mnemonicParsing="false" stylesheets="@../css/menu.css" text="My payments" />
-      <Button layoutX="529.0" layoutY="396.0" mnemonicParsing="false" stylesheets="@../css/menu.css" text="My discounts" />
-      <Button layoutX="556.0" layoutY="522.0" mnemonicParsing="false" stylesheets="@../css/menu.css" text="Opinions" />
+      <Button layoutX="575.0" layoutY="207.0" mnemonicParsing="false" onAction="#trips" stylesheets="@../css/menu.css" text="Trips" />
+      <Button layoutX="555.0" layoutY="270.0" mnemonicParsing="false" onAction="#myTrips" stylesheets="@../css/menu.css" text="My trips" />
+      <Button layoutX="525.0" layoutY="333.0" mnemonicParsing="false" onAction="#myPayments" stylesheets="@../css/menu.css" text="My payments" />
+      <Button layoutX="529.0" layoutY="396.0" mnemonicParsing="false" onAction="#myDiscounts" stylesheets="@../css/menu.css" text="My discounts" />
+      <Button layoutX="556.0" layoutY="522.0" mnemonicParsing="false" onAction="#opinions" stylesheets="@../css/menu.css" text="Opinions" />
       <Button layoutX="583.0" layoutY="585.0" mnemonicParsing="false" onAction="#exit" stylesheets="@../css/menu.css" text="Exit" />
       <Label layoutX="376.0" layoutY="78.0" styleClass="title2" stylesheets="@../css/menu.css" text="Sunny journey" textAlignment="CENTER">
          <font>
             <Font size="72.0" />
          </font>
       </Label>
-      <Button layoutX="1153.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="127.0" stylesheets="@../css/menu.css" text="Sign in">
+      <Button fx:id="button" layoutX="1128.0" mnemonicParsing="false" onAction="#signIn" prefHeight="63.0" prefWidth="152.0" stylesheets="@../css/menu.css" text="Sign in">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="535.0" layoutY="459.0" mnemonicParsing="false" stylesheets="@../css/menu.css" text="My statuses" />
+      <Button layoutX="535.0" layoutY="459.0" mnemonicParsing="false" onAction="#myStatuses" stylesheets="@../css/menu.css" text="My statuses" />
    </children>
 </AnchorPane>

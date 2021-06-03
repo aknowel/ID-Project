@@ -1,0 +1,6 @@
+.image
+{
+    -fx-border-color: black;
+    -fx-border-width: 5;
+    -fx-border-style: segments(10, 15, 15, 15)  line-cap round ;
+}

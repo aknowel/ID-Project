@@ -5,6 +5,7 @@ DROP VIEW if exists pilot_trips;
 DROP VIEW if exists trip_attractions_list;
 DROP VIEW if exists client_discounts;
 DROP VIEW if exists client_cash_back;
+DROP VIEW if exists client_opinions;
 
 DROP TABLE if exists countries CASCADE;
 DROP TABLE if exists cities CASCADE;
@@ -24,6 +25,7 @@ DROP TABLE if exists trip_dates CASCADE;
 DROP TABLE if exists pilot_warrants CASCADE;
 DROP TABLE if exists travel_price_changes CASCADE;
 DROP TABLE if exists trip_attractions CASCADE;
+DROP TABLE if exists opinions CASCADE;
 
 DROP FUNCTION if exists country_id(char);
 DROP FUNCTION if exists city_id(char);

@@ -19,6 +19,7 @@ DROP TABLE if exists trip_attractions CASCADE;
 DROP TABLE if exists trip_dates CASCADE;
 DROP TABLE if exists pilot_warrants CASCADE;
 DROP TABLE if exists travel_price_changes CASCADE;
+DROP TABLE if exists opinions CASCADE;
 
 --tables and enums
 create type attraction_type as enum ('monument', 'beach', 'modern architecture',
@@ -74,6 +75,7 @@ begin
 	end loop;
 	return result;
 end;
+$$ language plpgsql;
 
 create or replace function sum_discounts (cliect int, trip_date int) returns numeric as
 $$
@@ -94,7 +96,6 @@ begin
 	end loop;
 	return result;
 end;
-
 $$ language plpgsql;
 
 create table statuses(
@@ -222,6 +223,11 @@ create table client_trips(
 	check(paid_amount <=real_price(client_id, trip_id))
 );
 
+create table opinions (
+	client_id integer references clients,
+	opinion varchar(1000)
+);
+
 create index client_trips_idx on client_trips(client_id);
 
 commit;
@@ -314,6 +320,7 @@ CREATE OR REPLACE FUNCTION check4() RETURNS trigger AS $check4$
 BEGIN
 delete from client_statuses where client_id=Old.id;
 delete from client_trips where client_id=Old.id;
+update opinions set client_id=null where client_id=Old.id;
 return old;
 END;
 $check4$ LANGUAGE plpgsql;
@@ -914,6 +921,17 @@ $check29$ LANGUAGE plpgsql;
 CREATE TRIGGER check29 BEFORE delete ON trip_dates
 FOR EACH ROW EXECUTE PROCEDURE check29();
 
+CREATE OR REPLACE FUNCTION check30() RETURNS trigger AS $check30$
+BEGIN
+if new.client_id is distinct from null and (old.client_id is null or new.client_id <>old.client_id ) then
+raise exception 'Update is not allowed! You can delete and insert instead!';
+end if;
+return new;
+END;
+$check30$ LANGUAGE plpgsql;
+CREATE TRIGGER check30 BEFORE update ON opinions
+FOR EACH ROW EXECUTE PROCEDURE check30();
+
 create or replace function cash_back(x integer, y integer) returns numeric as
 $$
 declare
@@ -959,4 +977,7 @@ select c.id, c.name, c.surname, t.name "trip name", cash_back(c.id, td.id) "cash
 from clients c join client_trips ct on c.id=ct.client_id join trip_dates td on ct.trip_id=td.id
 join trips t on td.trip_id=t.id;
 
+create view client_opinions as
+select c.id, c.name, c.surname, opinion
+from clients c right outer join opinions ct on c.id=ct.client_id;
 commit;

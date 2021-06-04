@@ -75,10 +75,28 @@ public class MenuController {
         query="Select * from trips";
         result=statement.executeQuery(query);
     }
-    public void myTrips() throws SQLException {
-        statement=conn.createStatement();
-        query="Select * from trips";
-        result=statement.executeQuery(query);
+    public void myTrips(ActionEvent event) {
+        if(status)
+        {
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader=new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));
+            try {
+                AnchorPane root = fxmlLoader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("Menu");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            stage.show();
+        }
+        else
+        {
+
+        }
     }
     public void myPayments() throws SQLException {
         statement=conn.createStatement();

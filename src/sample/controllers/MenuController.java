@@ -6,7 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import sample.DBStarter;
 
@@ -21,9 +24,7 @@ public class MenuController {
     Stage stage;
     AnchorPane root;
     Connection conn;
-    ResultSet result;
-    Statement statement;
-    String query;
+    Label label=new Label("You have to sign in!");
     static boolean status=false;
     static int id=1;
     public void initialize() throws SQLException {
@@ -54,9 +55,13 @@ public class MenuController {
         else
         {
             status=false;
+            button.setText("Sign in");
+        }
+    }
+    public void trips(ActionEvent event) {
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             FXMLLoader fxmlLoader=new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/menu.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/Trips.fxml"));
             try {
                 AnchorPane root = fxmlLoader.load();
                 Scene scene = new Scene(root);
@@ -68,12 +73,6 @@ public class MenuController {
                 e.printStackTrace();
             }
             stage.show();
-        }
-    }
-    public void trips() throws SQLException {
-        statement=conn.createStatement();
-        query="Select * from trips";
-        result=statement.executeQuery(query);
     }
     public void myTrips(ActionEvent event) {
         if(status)
@@ -95,31 +94,111 @@ public class MenuController {
         }
         else
         {
-
+            board.getChildren().remove(label);
+            setLabel(label,Color.RED,289);
+            board.getChildren().add(label);
         }
     }
-    public void myPayments() throws SQLException {
-        statement=conn.createStatement();
-        query="Select * from trips";
-        result=statement.executeQuery(query);
+    public void myPayments(ActionEvent event){
+        if(status)
+        {
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader=new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/MyPayments.fxml"));
+            try {
+                AnchorPane root = fxmlLoader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("Menu");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            stage.show();
+        }
+        else
+        {
+            board.getChildren().remove(label);
+            setLabel(label,Color.RED,348);
+            board.getChildren().add(label);
+        }
     }
-    public void myDiscounts() throws SQLException {
-        statement=conn.createStatement();
-        query="Select * from client_discounts where id="+id;
-        result=statement.executeQuery(query);
+    public void myDiscounts(ActionEvent event){
+        if(status)
+        {
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader=new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/MyDiscounts.fxml"));
+            try {
+                AnchorPane root = fxmlLoader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("Menu");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            stage.show();
+        }
+        else
+        {
+            board.getChildren().remove(label);
+            setLabel(label,Color.RED,415);
+            board.getChildren().add(label);
+        }
     }
-    public void myStatuses() throws SQLException {
-        statement=conn.createStatement();
-        query="Select * from trips";
-        result=statement.executeQuery(query);
+    public void myStatuses(ActionEvent event){
+        if(status)
+        {
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader=new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/MyStatuses.fxml"));
+            try {
+                AnchorPane root = fxmlLoader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("Menu");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            stage.show();
+        }
+        else
+        {
+            board.getChildren().remove(label);
+            setLabel(label,Color.RED,478);
+            board.getChildren().add(label);
+        }
     }
-    public void opinions() throws SQLException {
-        statement=conn.createStatement();
-        query="Select * from opinions";
-        result=statement.executeQuery(query);
+    public void opinions(ActionEvent event) {
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader=new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/opinions.fxml"));
+            try {
+                AnchorPane root = fxmlLoader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("Menu");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            stage.show();
     }
     public void exit(ActionEvent event){
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.close();
+    }
+    private static void setLabel(Label text, Color color, double y)
+    {
+        text.setFont(Font.font("Verdana",16));
+        text.setTextFill(color);
+        text.setStyle("-fx-background-color: lightblue;");
+        text.relocate(792, y);
     }
 }

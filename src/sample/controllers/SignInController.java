@@ -30,14 +30,20 @@ public class SignInController {
     TextField text2;
     @FXML
     AnchorPane board;
+    static SignInController controller;
+    public void initialize()
+    {
+        controller=this;
+    }
     public void signIn(ActionEvent event) throws FileNotFoundException {
-        file=new File("src/resources/other/SignIn.txt");
+        file=new File("src/resources/other/Data.txt");
         if(file.exists())
         {
             scanner=new Scanner(file);
             String login="";
             String password="";
             int id=1;
+            boolean success=false;
             while(scanner.hasNext())
             {
                 login=scanner.next();
@@ -46,26 +52,47 @@ public class SignInController {
                 {
                     MenuController.status=true;
                     MenuController.id=id;
-                    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    FXMLLoader fxmlLoader=new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource("/resources/fxml/menu.fxml"));
-                    try {
-                        root = fxmlLoader.load();
-                        scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.setTitle("Menu");
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    stage.show();
+                    success=true;
+                    break;
                 }
                 id++;
             }
-            board.getChildren().remove(label);
-            setLabel(label,Color.RED,226);
-            board.getChildren().add(label);
+            scanner.close();
+            if(!success) {
+                board.getChildren().remove(label);
+                setLabel(label, Color.RED, 226);
+                board.getChildren().add(label);
+            }
+            else
+            {
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                FXMLLoader fxmlLoader=new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/resources/fxml/menu.fxml"));
+                try {
+                    root = fxmlLoader.load();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.setTitle("Menu");
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                stage.show();
+            }
+        }
+    }
+    public void signUp()
+    {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/SignUp.fxml"));
+        try {
+            root = fxmlLoader.load();
+            root.setLayoutX(0);
+            root.setLayoutY(0);
+            board.getChildren().add(root);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     public void returnMenu(ActionEvent event)

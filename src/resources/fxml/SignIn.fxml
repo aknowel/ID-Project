@@ -18,7 +18,7 @@
                 <Font size="36.0" />
             </font>
         </Label>
-        <Button layoutX="303.0" layoutY="260.0" mnemonicParsing="false" stylesheets="@../css/menu.css" text="Sign up" />
+        <Button layoutX="303.0" layoutY="260.0" mnemonicParsing="false" onAction="#signUp" stylesheets="@../css/menu.css" text="Sign up" />
         <Button layoutX="243.0" layoutY="323.0" mnemonicParsing="false" onAction="#returnMenu" stylesheets="@../css/menu.css" text="MENU" />
       <TextField fx:id="text1" layoutX="252.0" layoutY="105.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css">
          <font>

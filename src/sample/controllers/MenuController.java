@@ -13,7 +13,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import sample.DBStarter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.*;
+import java.util.Scanner;
 
 
 public class MenuController {
@@ -23,12 +26,13 @@ public class MenuController {
     Button button;
     Stage stage;
     AnchorPane root;
-    Connection conn;
     Label label=new Label("You have to sign in!");
+    File file;
+    Scanner scanner;
+    Statement statement;
     static boolean status=false;
     static int id=1;
-    public void initialize() throws SQLException {
-        conn=DBStarter.start();
+    public void initialize() {
         if(!status)
         {
             button.setText("Sign in");
@@ -66,7 +70,7 @@ public class MenuController {
                 AnchorPane root = fxmlLoader.load();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle("Menu");
+                stage.setTitle("Trips");
             }
             catch (Exception e)
             {
@@ -84,7 +88,7 @@ public class MenuController {
                 AnchorPane root = fxmlLoader.load();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle("Menu");
+                stage.setTitle("My Trips");
             }
             catch (Exception e)
             {
@@ -109,7 +113,7 @@ public class MenuController {
                 AnchorPane root = fxmlLoader.load();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle("Menu");
+                stage.setTitle("My payments");
             }
             catch (Exception e)
             {
@@ -134,7 +138,7 @@ public class MenuController {
                 AnchorPane root = fxmlLoader.load();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle("Menu");
+                stage.setTitle("My discounts");
             }
             catch (Exception e)
             {
@@ -159,7 +163,7 @@ public class MenuController {
                 AnchorPane root = fxmlLoader.load();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle("Menu");
+                stage.setTitle("My statuses");
             }
             catch (Exception e)
             {
@@ -182,7 +186,7 @@ public class MenuController {
                 AnchorPane root = fxmlLoader.load();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle("Menu");
+                stage.setTitle("Options");
             }
             catch (Exception e)
             {
@@ -190,7 +194,18 @@ public class MenuController {
             }
             stage.show();
     }
-    public void exit(ActionEvent event){
+    public void exit(ActionEvent event) throws FileNotFoundException, SQLException {
+        file = new File("drop.sql");
+        if (file.exists()) {
+            scanner = new Scanner(file);
+            String line;
+            statement = DBStarter.conn.createStatement();
+            while (scanner.hasNext()) {
+                line = scanner.nextLine();
+                statement.execute(line);
+            }
+            scanner.close();
+        }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.close();
     }

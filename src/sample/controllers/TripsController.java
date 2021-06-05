@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.DBStarter;
@@ -19,6 +20,8 @@ import java.sql.Statement;
 public class TripsController {
     @FXML
     AnchorPane pane;
+    @FXML
+    ScrollPane scroll;
     Stage stage;
     Button previous=null;
     public void initialize()

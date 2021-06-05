@@ -11,12 +11,12 @@ public class Main extends Application {
     @Override
     public void start(Stage stage){
         FXMLLoader fxmlLoader=new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/menu.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/connPSQL.fxml"));
         try {
             AnchorPane root = fxmlLoader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle("Menu");
+            stage.setTitle("PSQL connection");
         }
         catch (Exception e)
         {

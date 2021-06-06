@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -14,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -31,6 +34,7 @@ public class SignInController {
     @FXML
     AnchorPane board;
     static SignInController controller;
+    Alert alert;
     public void initialize()
     {
         controller=this;
@@ -42,10 +46,11 @@ public class SignInController {
             scanner=new Scanner(file);
             String login="";
             String password="";
-            int id=1;
+            int id;
             boolean success=false;
             while(scanner.hasNext())
             {
+                id=Integer.parseInt(scanner.next());
                 login=scanner.next();
                 password=scanner.next();
                 if(login.equals(text1.getText()) && password.equals(text2.getText()))
@@ -55,7 +60,6 @@ public class SignInController {
                     success=true;
                     break;
                 }
-                id++;
             }
             scanner.close();
             if(!success) {
@@ -84,16 +88,16 @@ public class SignInController {
     }
     public void signUp()
     {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/SignUp.fxml"));
-        try {
-            root = fxmlLoader.load();
-            root.setLayoutX(0);
-            root.setLayoutY(0);
-            board.getChildren().add(root);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/SignUp.fxml"));
+            try {
+                root = fxmlLoader.load();
+                root.setLayoutX(-100);
+                root.setLayoutY(-100);
+                board.getChildren().add(root);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
     public void returnMenu(ActionEvent event)
     {

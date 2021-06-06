@@ -15,6 +15,10 @@ import sample.DBStarter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -32,6 +36,7 @@ public class MenuController {
     Statement statement;
     static boolean status=false;
     static int id=1;
+    public static StringBuilder builder=new StringBuilder();
     public void initialize() {
         if(!status)
         {
@@ -206,8 +211,28 @@ public class MenuController {
             }
             scanner.close();
         }
+        if(builder.toString().equals(""))
+        System.out.println("tak");
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.close();
+    }
+    public static void saveDB() throws IOException {
+        File file=new File("src/resources/other/base.sql");
+        File file2=new File("src/resources/other/base2.sql");
+        Scanner scanner = new Scanner(file);
+        PrintWriter writer = new PrintWriter(file2);
+        while (scanner.hasNext()) {
+            String line=scanner.nextLine();
+            writer.println(line);
+        }
+        scanner.close();
+        if(!builder.toString().equals("")) {
+            writer.print(builder.toString());
+            builder = new StringBuilder();
+        }
+        writer.close();
+        Files.delete(Path.of("src/resources/other/base.sql"));
+        file2.renameTo(file);
     }
     private static void setLabel(Label text, Color color, double y)
     {

@@ -84,6 +84,18 @@ public class ConnectionPSQLController {
                 builder.append('\n').append(scanner.nextLine());
             }
             statement.executeUpdate(builder.toString());
+            scanner.close();
+        }
+        file = new File("src/resources/other/base.sql");
+        if (file.exists()) {
+            scanner = new Scanner(file);
+            StringBuilder builder = new StringBuilder();
+            statement = conn.createStatement();
+            while (scanner.hasNext()) {
+                builder.append('\n').append(scanner.nextLine());
+            }
+            statement.executeUpdate(builder.toString());
+            scanner.close();
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader=new FXMLLoader();

@@ -22,8 +22,7 @@ DROP TABLE if exists travel_price_changes CASCADE;
 DROP TABLE if exists opinions CASCADE;
 
 --tables and enums
-create type attraction_type as enum ('monument', 'beach', 'modern architecture',
-'museum', 'opera', 'market square', 'palace', 'castle', 'nature', 'other'); 
+create type attractions_type as enum ('monument', 'beach', 'modern architecture','museum', 'opera', 'market square', 'palace', 'castle', 'nature', 'other');
 
 create type travel_type as enum('plane', 'train', 'bus', 'ship', 'other');
 
@@ -149,7 +148,7 @@ create table attractions (
 	"name" varchar(100) not null,
 	price numeric (6,2) not null,
 	city_id integer not null references cities(id),
-	type attraction_type not null,
+	type attractions_type not null,
 	check(price>=0)
 );
 
@@ -203,7 +202,7 @@ create table clients(
 	surname varchar(20) not null,
 	PESEL char(11) not null,
 	account_number char(26),
-	unique (account_number)
+	unique (pesel,account_number)
 );
 
 create table client_statuses(

@@ -5,41 +5,65 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="board" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="image" stylesheets="@../css/border.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.SignUpController">
+<AnchorPane fx:id="board" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="856.0" styleClass="image" stylesheets="@../css/border.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.SignUpController">
     <children>
         <AnchorPane layoutX="-340.0" layoutY="-160.0" prefHeight="720.0" prefWidth="1280.0" />
-        <ImageView fitHeight="392.0" fitWidth="592.0" layoutX="4.0" layoutY="4.0" pickOnBounds="true">
+        <ImageView fitHeight="564.0" fitWidth="846.0" layoutX="4.0" layoutY="5.0" pickOnBounds="true">
             <image>
                 <Image url="@../images/brownBG.jpg" />
             </image>
         </ImageView>
-        <Label layoutX="225.0" layoutY="4.0" prefHeight="120.0" prefWidth="152.0" styleClass="title2" stylesheets="@../css/menu.css" text="Sign up" textFill="#bfbf2e">
+        <Label layoutX="351.0" layoutY="-24.0" prefHeight="120.0" prefWidth="152.0" styleClass="title2" stylesheets="@../css/menu.css" text="Sign up" textFill="#bfbf2e">
             <font>
                 <Font size="36.0" />
             </font>
         </Label>
-        <Button layoutX="226.0" layoutY="270.0" mnemonicParsing="false" onAction="#signUp" stylesheets="@../css/menu.css" text="Sign up" />
-        <Button layoutX="243.0" layoutY="333.0" mnemonicParsing="false" onAction="#back" stylesheets="@../css/menu.css" text="Back" />
-        <TextField fx:id="login" layoutX="292.0" layoutY="105.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css">
+        <Button layoutX="362.0" layoutY="423.0" mnemonicParsing="false" onAction="#signUp" stylesheets="@../css/menu.css" text="Sign up" />
+        <Button layoutX="379.0" layoutY="486.0" mnemonicParsing="false" onAction="#back" stylesheets="@../css/menu.css" text="Back" />
+        <TextField fx:id="surname" layoutX="449.0" layoutY="125.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css">
             <font>
                 <Font size="18.0" />
             </font></TextField>
-        <Label layoutX="41.0" layoutY="103.0" styleClass="title2" stylesheets="@../css/menu.css" text="Login">
+        <Label layoutX="145.0" layoutY="123.0" styleClass="title2" stylesheets="@../css/menu.css" text="Surname">
             <font>
                 <Font size="24.0" />
             </font>
         </Label>
-        <Label layoutX="41.0" layoutY="159.0" styleClass="title2" stylesheets="@../css/menu.css" text="New password">
+        <Label layoutX="145.0" layoutY="314.0" styleClass="title2" stylesheets="@../css/menu.css" text="New password">
             <font>
                 <Font size="24.0" />
             </font>
         </Label>
-        <PasswordField fx:id="pass" layoutX="292.0" layoutY="161.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css" />
-      <Label layoutX="41.0" layoutY="211.0" styleClass="title2" stylesheets="@../css/menu.css" text="Reenter password">
+        <TextField fx:id="pesel" layoutX="449.0" layoutY="174.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css" />
+      <Label layoutX="145.0" layoutY="361.0" styleClass="title2" stylesheets="@../css/menu.css" text="Reenter password">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <PasswordField fx:id="rpass" layoutX="292.0" layoutY="213.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css" />
+      <TextField fx:id="account" layoutX="449.0" layoutY="221.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css" />
+      <TextField fx:id="name" layoutX="449.0" layoutY="76.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css" />
+      <Label layoutX="143.0" layoutY="74.0" styleClass="title2" stylesheets="@../css/menu.css" text="Name">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="148.0" layoutY="172.0" styleClass="title2" stylesheets="@../css/menu.css" text="PESEL">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="145.0" layoutY="219.0" styleClass="title2" stylesheets="@../css/menu.css" text="Account number">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="145.0" layoutY="266.0" styleClass="title2" stylesheets="@../css/menu.css" text="Login">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="login" layoutX="449.0" layoutY="268.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css" />
+      <PasswordField fx:id="pass" layoutX="449.0" layoutY="316.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css" />
+      <PasswordField fx:id="rpass" layoutX="449.0" layoutY="363.0" prefHeight="39.0" prefWidth="234.0" styleClass="text" stylesheets="@../css/bindings.css" />
     </children>
 </AnchorPane>

@@ -202,7 +202,8 @@ create table clients(
 	name varchar(20) not null,
 	surname varchar(20) not null,
 	PESEL char(11) not null,
-	account_number char(26)
+	account_number char(26),
+	unique (account_number)
 );
 
 create table client_statuses(

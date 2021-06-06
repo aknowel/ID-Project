@@ -27,6 +27,15 @@ public class TripsController {
     public void initialize()
     {
         pane.setStyle("-fx-background-color: #11ff33");
+        Label name=new Label();
+        Label base_price=new Label();
+        name.setPrefSize(600, 100); base_price.setPrefSize(268.5, 100);
+        name.relocate(0 ,0); base_price.relocate(600, 0);
+        name.setText("Trip Name"); base_price.setText("Base Price");
+        name.setAlignment(Pos.CENTER); base_price.setAlignment(Pos.CENTER);
+        name.setStyle("-fx-font-size: 40; -fx-background-color: #ffff00; -fx-font-weight: bold");
+        base_price.setStyle("-fx-font-size: 40; -fx-font-weight: bold");
+        pane.getChildren().addAll(name, base_price);
         try {
             Statement stmt=DBStarter.conn.createStatement();
             ResultSet rs = stmt.executeQuery( "select * from trips;" );
@@ -35,7 +44,6 @@ public class TripsController {
                 Button bt = new Button();
                 Label p=new Label();
                 bt.setPrefSize(600, 100);
-                //bt.setStyle("-fx-background-color: #aaaa55; -fx-font-size: 40; -fx-font");
                 bt.setStyle("""
                         -fx-background-color:
                                 linear-gradient(#ffd65b, #e68400),
@@ -51,12 +59,12 @@ public class TripsController {
                             -fx-font-size: 40""");
                 p.setStyle("-fx-font-size: 35;" +
                         " -fx-text-fill: #ee2211; -fx-font-style: italic; -fx-background-color: #eeeeee; -fx-border-color: #22aa33");
-                p.setPrefSize(300, 100);
+                p.setPrefSize(268.5, 100);
                 p.setAlignment(Pos.CENTER);
                 if(previous==null)
                 {
-                    bt.relocate(0,0);
-                    p.relocate(600, 0);
+                    bt.relocate(0,100);
+                    p.relocate(600, 100);
                 }
                 else
                 {

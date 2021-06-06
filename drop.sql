@@ -69,6 +69,7 @@ DROP FUNCTION if exists check26;
 DROP FUNCTION if exists check27;
 DROP FUNCTION if exists check28;
 DROP FUNCTION if exists check29;
+DROP FUNCTION if exists check30;
 DROP FUNCTION if exists pesel_check;
 DROP FUNCTION if exists date_check;
 DROP FUNCTION if exists date_check2;
@@ -76,6 +77,6 @@ DROP FUNCTION if exists pilot_check;
 DROP FUNCTION if exists discount_check1;
 DROP FUNCTION if exists discount_check2;
 
-DROP TYPE if exists attraction_type;
+DROP TYPE if exists attractions_type;
 DROP TYPE if exists travel_type;
 commit;

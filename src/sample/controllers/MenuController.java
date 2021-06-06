@@ -108,31 +108,6 @@ public class MenuController {
             board.getChildren().add(label);
         }
     }
-    public void myPayments(ActionEvent event){
-        if(status)
-        {
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            FXMLLoader fxmlLoader=new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/MyPayments.fxml"));
-            try {
-                AnchorPane root = fxmlLoader.load();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.setTitle("My payments");
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            stage.show();
-        }
-        else
-        {
-            board.getChildren().remove(label);
-            setLabel(label,Color.RED,348);
-            board.getChildren().add(label);
-        }
-    }
     public void myDiscounts(ActionEvent event){
         if(status)
         {

@@ -14,10 +14,9 @@
       </ImageView>
       <Button layoutX="575.0" layoutY="207.0" mnemonicParsing="false" onAction="#trips" stylesheets="@../css/menu.css" text="Trips" />
       <Button layoutX="555.0" layoutY="270.0" mnemonicParsing="false" onAction="#myTrips" stylesheets="@../css/menu.css" text="My trips" />
-      <Button layoutX="525.0" layoutY="333.0" mnemonicParsing="false" onAction="#myPayments" stylesheets="@../css/menu.css" text="My payments" />
-      <Button layoutX="529.0" layoutY="396.0" mnemonicParsing="false" onAction="#myDiscounts" stylesheets="@../css/menu.css" text="My discounts" />
-      <Button layoutX="556.0" layoutY="522.0" mnemonicParsing="false" onAction="#opinions" stylesheets="@../css/menu.css" text="Opinions" />
-      <Button layoutX="583.0" layoutY="585.0" mnemonicParsing="false" onAction="#exit" stylesheets="@../css/menu.css" text="Exit" />
+      <Button layoutX="527.0" layoutY="333.0" mnemonicParsing="false" onAction="#myDiscounts" stylesheets="@../css/menu.css" text="My discounts" />
+      <Button layoutX="554.0" layoutY="459.0" mnemonicParsing="false" onAction="#opinions" stylesheets="@../css/menu.css" text="Opinions" />
+      <Button layoutX="582.0" layoutY="522.0" mnemonicParsing="false" onAction="#exit" stylesheets="@../css/menu.css" text="Exit" />
       <Label layoutX="376.0" layoutY="78.0" styleClass="title2" stylesheets="@../css/menu.css" text="Sunny journey" textAlignment="CENTER">
          <font>
             <Font size="72.0" />
@@ -28,6 +27,6 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="535.0" layoutY="459.0" mnemonicParsing="false" onAction="#myStatuses" stylesheets="@../css/menu.css" text="My statuses" />
+      <Button layoutX="535.0" layoutY="396.0" mnemonicParsing="false" onAction="#myStatuses" stylesheets="@../css/menu.css" text="My statuses" />
    </children>
 </AnchorPane>

@@ -16,3 +16,6 @@ Insert into opinions(opinion) values('Mega!');
 Insert into opinions values(2,'OK');
 Delete from opinions where client_id=2 and opinion='Super!
 asqasd' ;
+Update client_trips set paid_amount=835.0 where id=1 ;
+Insert into opinions values(49,'Sth');
+Delete from opinions where client_id=49 and opinion='Sth' ;

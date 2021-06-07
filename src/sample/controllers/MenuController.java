@@ -166,7 +166,7 @@ public class MenuController {
                 AnchorPane root = fxmlLoader.load();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle("Options");
+                stage.setTitle("Opinions");
             }
             catch (Exception e)
             {

@@ -8,11 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class MyPaymentsController {
+public class MyOpinionsController {
     @FXML
     AnchorPane pane;
     Stage stage;
-    public void initialize()
+    public void create()
     {
 
     }

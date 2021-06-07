@@ -14,3 +14,5 @@ Insert into opinions values(2,'Super!
 asqasd');
 Insert into opinions(opinion) values('Mega!');
 Insert into opinions values(2,'OK');
+Delete from opinions where client_id=2 and opinion='Super!
+asqasd' ;

@@ -129,7 +129,7 @@ public class MenuController {
         else
         {
             board.getChildren().remove(label);
-            setLabel(label,Color.RED,415);
+            setLabel(label,Color.RED,352);
             board.getChildren().add(label);
         }
     }
@@ -154,7 +154,7 @@ public class MenuController {
         else
         {
             board.getChildren().remove(label);
-            setLabel(label,Color.RED,478);
+            setLabel(label,Color.RED,415);
             board.getChildren().add(label);
         }
     }

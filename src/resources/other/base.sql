@@ -8,3 +8,5 @@ INSERT INTO clients VALUES(10007,'hhhhhh', 'hhhh', '86061299887', '99');
 INSERT INTO clients VALUES(10008,'jh', 'jh', '86061299887', '66');
 INSERT INTO clients VALUES(10009,'hgg', 'hhhh', '86061299887', '65');
 INSERT INTO clients VALUES(10010,'xx', 'xx', '72052047764', '32');
+Update client_trips set paid_amount=980.812 where id=2 ;
+Delete from client_trips where id=2 ;

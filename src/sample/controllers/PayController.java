@@ -45,7 +45,7 @@ public class PayController {
             alert.showAndWait();
             return;
         }
-        String query="Update client_trips set paid_amount="+i+" where client_id="+MenuController.id+" and paid_amount="+l+" ;";
+        String query="Update client_trips set paid_amount="+i+" where id="+MyTripsController.controller.idList.get(MyTripsController.button)+" ;";
         try {
             statement.executeUpdate(query);
         }

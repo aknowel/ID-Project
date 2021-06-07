@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class MyTripsController {
@@ -116,6 +118,13 @@ public class MyTripsController {
                 }
                 previous=bt;
                 pay.setOnAction((e)->pay(Integer.parseInt(pay.getId())));
+                resign.setOnAction((e)-> {
+                    try {
+                        resign(Integer.parseInt(resign.getId()),e);
+                    } catch (IOException | SQLException ioException) {
+                        ioException.printStackTrace();
+                    }
+                });
                 bt.setText(rs.getString(4));
                 p.setText(rs.getString(6));
                 pd.setText(rs.getString(5));
@@ -142,10 +151,18 @@ public class MyTripsController {
             e.printStackTrace();
         }
     }
-    public void delete(int i,ActionEvent event) throws IOException {
-        String query="Delete from client trips where client_id="+MenuController.id+" and paid_amount="+Double.parseDouble(priceList.get(i).getText());
+    public void resign(int i,ActionEvent event) throws IOException, SQLException {
+        statement=DBStarter.conn.createStatement();
+        double r=0;
         try {
-            statement.executeUpdate(query);
+            ResultSet result=statement.executeQuery("Select trip_id from client_trips where id="+idList.get(i)+" ;");
+            if(result.next()) {
+                ResultSet result2 = statement.executeQuery("Select cash_back("+MenuController.id+','+result.getInt(1)+") ;");
+                if(result2.next())
+                {
+                    r=result2.getDouble(1);
+                }
+            }
         }
         catch(Exception e)
         {
@@ -155,22 +172,41 @@ public class MyTripsController {
             alert.showAndWait();
             return;
         }
-        MenuController.builder.append(query).append('\n');
-        MenuController.saveDB();
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        FXMLLoader fxmlLoader=new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));
-        try {
-            AnchorPane root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("My trips");
-        }
-        catch (Exception e)
+        alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure ?", ButtonType.YES,ButtonType.CANCEL);
+        alert.setTitle("Resign");
+        alert.setHeaderText("You will lose "+ Math.floor(r * 100) / 100);
+        Optional<ButtonType> result=alert.showAndWait();
+        if(result.orElse(null).equals(ButtonType.YES))
         {
-            e.printStackTrace();
+            String query="Delete from client_trips where id="+idList.get(i)+" ;";
+            try {
+                statement.executeUpdate(query);
+            }
+            catch(Exception e)
+            {
+                alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Pay");
+                alert.setHeaderText("Error! Try again!");
+                alert.showAndWait();
+                return;
+            }
+            MenuController.builder.append(query).append('\n');
+            MenuController.saveDB();
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader=new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));
+            try {
+                AnchorPane root = fxmlLoader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("My trips");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            stage.show();
         }
-        stage.show();
     }
     public void returnMenu(ActionEvent event)
     {

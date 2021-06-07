@@ -186,7 +186,7 @@ public class MyTripsController {
         }
         alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure ?", ButtonType.YES,ButtonType.CANCEL);
         alert.setTitle("Resign");
-        alert.setHeaderText("You will lose "+ Math.floor(r * 100) / 100);
+        alert.setHeaderText("You will receive "+ Math.floor(r * 100) / 100+" return");
         Optional<ButtonType> result=alert.showAndWait();
         if(result.orElse(null).equals(ButtonType.YES))
         {

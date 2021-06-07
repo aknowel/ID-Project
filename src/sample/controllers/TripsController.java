@@ -40,18 +40,21 @@ public class TripsController {
     boolean setPrice=false;
     List<Label> labelList=new ArrayList<>();
     List<Button> buttonList=new ArrayList<>();
+    List<Label> days=new ArrayList<>();
     public void initialize()
     {
         pane.setStyle("-fx-background-color: #11ff33");
         Label name=new Label();
         Label base_price=new Label();
-        name.setPrefSize(600, 100); base_price.setPrefSize(268.5, 100);
-        name.relocate(0 ,0); base_price.relocate(600, 0);
-        name.setText("Trip Name"); base_price.setText("Base Price");
-        name.setAlignment(Pos.CENTER); base_price.setAlignment(Pos.CENTER);
+        Label duration=new Label();
+        name.setPrefSize(600, 100); base_price.setPrefSize(268.5, 100); duration.setPrefSize(268.5, 100);
+        name.relocate(0 ,0); base_price.relocate(600, 0); duration.relocate(868.5, 0);
+        name.setText("Trip Name"); base_price.setText("Max Price"); duration.setText("Duration");
+        name.setAlignment(Pos.CENTER); base_price.setAlignment(Pos.CENTER); duration.setAlignment(Pos.CENTER);
         name.setStyle("-fx-font-size: 40; -fx-background-color: #ffff00; -fx-font-weight: bold");
         base_price.setStyle("-fx-font-size: 40; -fx-font-weight: bold");
-        pane.getChildren().addAll(name, base_price);
+        duration.setStyle("-fx-font-size: 40; -fx-font-weight: bold; -fx-background-color: #ffff00");
+        pane.getChildren().addAll(name, base_price, duration);
         try {
             set("select * from trips;");
 
@@ -70,6 +73,7 @@ public class TripsController {
                 {
                     buttonList.get(i).setText(rs.getString(2));
                     labelList.get(i).setText(rs.getString(3));
+                    days.get(i).setText(rs.getString(6));
                     i++;
                 }
                 setName=true;
@@ -88,6 +92,7 @@ public class TripsController {
                 {
                     buttonList.get(i).setText(rs.getString(2));
                     labelList.get(i).setText(rs.getString(3));
+                    days.get(i).setText(rs.getString(6));
                     i++;
                 }
                 setName=false;
@@ -108,6 +113,7 @@ public class TripsController {
                 {
                     buttonList.get(i).setText(rs.getString(2));
                     labelList.get(i).setText(rs.getString(3));
+                    days.get(i).setText(rs.getString(6));
                     i++;
                 }
                 setPrice=true;
@@ -126,6 +132,7 @@ public class TripsController {
                 {
                     buttonList.get(i).setText(rs.getString(2));
                     labelList.get(i).setText(rs.getString(3));
+                    days.get(i).setText(rs.getString(6));
                     i++;
                 }
                 setPrice=false;
@@ -161,6 +168,8 @@ public class TripsController {
             buttonList.add(bt);
             Label p=new Label();
             labelList.add(p);
+            Label d=new Label();
+            days.add(d);
             bt.setPrefSize(600, 100);
             bt.setStyle("""
                         -fx-background-color:
@@ -179,21 +188,27 @@ public class TripsController {
                     " -fx-text-fill: #ee2211; -fx-font-style: italic; -fx-background-color: #eeeeee; -fx-border-color: #22aa33");
             p.setPrefSize(268.5, 100);
             p.setAlignment(Pos.CENTER);
+            d.setStyle("-fx-font-size: 35;" +
+                    " -fx-text-fill: #ee2211; -fx-font-style: italic; -fx-background-color: #eeeeee; -fx-border-color: #22aa33");
+            d.setPrefSize(268.5, 100);
+            d.setAlignment(Pos.CENTER);
             if(previous==null)
             {
                 bt.relocate(0,100);
                 p.relocate(600, 100);
+                d.relocate(868.5, 100);
             }
             else
             {
                 bt.relocate(0, previous.getBoundsInParent().getMaxY()+100);
                 p.relocate(600, previous.getBoundsInParent().getMaxY()+100);
+                d.relocate(868.5, previous.getBoundsInParent().getMaxY()+100);
             }
             previous=bt;
             bt.setText(rs.getString(2));
             p.setText(rs.getString(3));
-            pane.getChildren().add(bt);
-            pane.getChildren().add(p);
+            d.setText(rs.getString(6) + " days");
+            pane.getChildren().addAll(bt, p, d);
         }
     }
 }

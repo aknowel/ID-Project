@@ -17458,6 +17458,15 @@ insert into trip_routes (trip_id, travel_id, on_day) values
 (49, 94, 5),
 (50, 134, 4),
 (50, 94, 7);
+--opinions
+insert into opinions (client_id, opinion) values
+(1, 'Best holidays of my life!'),
+(null, 'Great (sorry for bad english)'),
+(null, 'Recommended'),
+(5, 'I want more!'),
+(null, 'Best fun for reasonable price'),
+(null, 'Gran divertimento!'),
+(32, 'Superb');
 --trip_attractions
 create or replace function auto_att() returns void as 
 $$

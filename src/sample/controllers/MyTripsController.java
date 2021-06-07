@@ -35,12 +35,13 @@ public class MyTripsController {
     List<Button> resignButtonList=new ArrayList<>();
     List<Label> labelList=new ArrayList<>();
     List<Label> priceList=new ArrayList<>();
+    List<Label> dateList=new ArrayList<>();
     List<Integer> idList=new ArrayList<>();
     Statement statement;
     Alert alert;
     static MyTripsController controller;
     static int button;
-    String style="""
+    static String style="""
                         -fx-background-color:
                                 linear-gradient(#ffd65b, #e68400),
                                 linear-gradient(#ffef84, #f2ba44),
@@ -59,14 +60,16 @@ public class MyTripsController {
         Label name=new Label();
         Label price=new Label();
         Label paid=new Label();
-        name.setPrefSize(600, 100); price.setPrefSize(268.5, 100); paid.setPrefSize(268.5, 100);
-        name.relocate(0 ,0); price.relocate(600, 0); paid.relocate(868.5, 0);
-        name.setText("Trip Name"); price.setText("Price"); paid.setText("You Paid");
-        name.setAlignment(Pos.CENTER); price.setAlignment(Pos.CENTER); paid.setAlignment(Pos.CENTER);
-        name.setStyle("-fx-font-size: 40; -fx-background-color: #ffff00; -fx-font-weight: bold");
-        price.setStyle("-fx-font-size: 40; -fx-font-weight: bold");
-        paid.setStyle("-fx-font-size: 40; -fx-font-weight: bold; -fx-background-color: #ffff00" );
-        pane.getChildren().addAll(name, price, paid);
+        Label date=new Label();
+        name.setPrefSize(600, 100); price.setPrefSize(268.5, 100); paid.setPrefSize(268.5, 100); date.setPrefSize(500, 100);
+        name.relocate(0 ,0); price.relocate(600, 0); paid.relocate(868.5, 0); date.relocate(1137, 0);
+        name.setText("Trip Name"); price.setText("Price"); paid.setText("You Paid"); date.setText("Date");
+        name.setAlignment(Pos.CENTER); price.setAlignment(Pos.CENTER); paid.setAlignment(Pos.CENTER); date.setAlignment(Pos.CENTER);
+        name.setStyle("-fx-font-size: 40; -fx-font-weight: bold");
+        price.setStyle("-fx-font-size: 40; -fx-background-color: #ffff00; -fx-font-weight: bold");
+        paid.setStyle("-fx-font-size: 40; -fx-font-weight: bold");
+        date.setStyle("-fx-font-size: 40; -fx-font-weight: bold; -fx-background-color: #ffff00");
+        pane.getChildren().addAll(name, price, paid, date);
         try {
             Statement stmt= DBStarter.conn.createStatement();
             ResultSet rs = stmt.executeQuery( "select * from payments where id=" + MenuController.id + ';' );
@@ -76,6 +79,7 @@ public class MyTripsController {
                 Button bt = new Button();
                 Label p=new Label();
                 Label pd=new Label();
+                Label d=new Label();
                 Button pay= new Button();
                 Button resign= new Button();
                 pay.setId(String.valueOf(i));
@@ -84,6 +88,7 @@ public class MyTripsController {
                 resignButtonList.add(resign);
                 labelList.add(pd);
                 priceList.add(p);
+                dateList.add(d);
                 i++;
                 bt.setPrefSize(600, 100);
                 pay.setPrefSize(150, 50);
@@ -96,25 +101,31 @@ public class MyTripsController {
                         " -fx-text-fill: #ee2211; -fx-font-style: italic; -fx-background-color: #eeeeee; -fx-border-color: #22aa33");
                 pd.setStyle("-fx-font-size: 35;" +
                         " -fx-text-fill: #ee2211; -fx-font-style: italic; -fx-background-color: #eeeeee; -fx-border-color: #22aa33");
+                d.setStyle("-fx-font-size: 35;" +
+                        " -fx-text-fill: #ee2211; -fx-font-style: italic; -fx-background-color: #eeeeee; -fx-border-color: #22aa33");
                 p.setPrefSize(268.5, 100);
                 pd.setPrefSize(268.5, 100);
+                d.setPrefSize(500, 100);
                 p.setAlignment(Pos.CENTER);
                 pd.setAlignment(Pos.CENTER);
+                d.setAlignment(Pos.CENTER);
                 if(previous==null)
                 {
                     bt.relocate(0,100);
                     p.relocate(600, 100);
                     pd.relocate(868.5, 100);
-                    pay.relocate(1137, 100);
-                    resign.relocate(1137, 150);
+                    d.relocate(1137, 100);
+                    pay.relocate(1637, 100);
+                    resign.relocate(1637, 150);
                 }
                 else
                 {
                     bt.relocate(0, previous.getBoundsInParent().getMaxY()+100);
                     p.relocate(600, previous.getBoundsInParent().getMaxY()+100);
                     pd.relocate(868.5, previous.getBoundsInParent().getMaxY()+100);
-                    pay.relocate(1137, previous.getBoundsInParent().getMaxY()+100);
-                    resign.relocate(1137, previous.getBoundsInParent().getMaxY()+150);
+                    d.relocate(1137, previous.getBoundsInParent().getMaxY()+100);
+                    pay.relocate(1637, previous.getBoundsInParent().getMaxY()+100);
+                    resign.relocate(1637, previous.getBoundsInParent().getMaxY()+150);
                 }
                 previous=bt;
                 pay.setOnAction((e)->pay(Integer.parseInt(pay.getId())));
@@ -128,10 +139,11 @@ public class MyTripsController {
                 bt.setText(rs.getString(4));
                 p.setText(rs.getString(6));
                 pd.setText(rs.getString(5));
-                idList.add(rs.getInt(7));
+                d.setText(rs.getString(7));
+                idList.add(rs.getInt(8));
                 pay.setText("Pay");
                 resign.setText("Resign");
-                pane.getChildren().addAll(bt, p, pd, pay, resign);
+                pane.getChildren().addAll(bt, p, pd, d, pay, resign);
             }
         } catch (SQLException e) {
             e.printStackTrace();

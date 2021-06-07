@@ -12,3 +12,5 @@ Update client_trips set paid_amount=980.812 where id=2 ;
 Delete from client_trips where id=2 ;
 Insert into opinions values(2,'Super!
 asqasd');
+Insert into opinions(opinion) values('Mega!');
+Insert into opinions values(2,'OK');

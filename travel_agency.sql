@@ -76,6 +76,23 @@ begin
 end;
 $$ language plpgsql;
 
+create or replace function max_price (t int) returns numeric as
+$$
+declare
+	result numeric=0;
+	x record;
+begin
+	result=result+(select base_price from trips where id=t);
+	for x in select * from trip_attractions ta join attractions a on a.id=ta.attraction_id where ta.trip_id=t and ta.mandatory=true loop
+		result=result+x.price;
+	end loop;
+	for x in select * from trip_routes tr join travels tl on tr.travel_id=tl.id left outer join travel_price_changes tpc on tl.id=tpc.travel_id where trip_id=t loop
+			result=result+x.price;
+	end loop;
+	return result;
+end;
+$$ language plpgsql;
+
 create or replace function sum_discounts (cliect int, trip_date int) returns numeric as
 $$
 declare
@@ -955,7 +972,7 @@ $$
 language plpgsql;
 
 create view payments as
-select c.id "client id", c.name, c.surname, t.name "trip name", ct.paid_amount, real_price(c.id, td.id) "price", ct.id "id"
+select c.id "client id", c.name, c.surname, t.name "trip name", ct.paid_amount, real_price(c.id, td.id) "price", td.starting_date "date", ct.id "id"
 from clients c join client_trips ct on c.id=ct.client_id join trip_dates td on ct.trip_id=td.id
 join trips t on td.trip_id=t.id;
 

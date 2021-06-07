@@ -12349,7 +12349,7 @@ insert into trip_dates(id,trip_id,starting_date,due_payment_date) values
 (277, 50, '2021-04-07', '2021-03-09');
 
 --client_trips
-insert into client_trips values
+insert into client_trips (trip_id, client_id, paid_amount) values
 (186, 1, 834.0),
 (213, 2, 978.58),
 (169, 5, 781.27),

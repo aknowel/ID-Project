@@ -30,12 +30,26 @@ public class MyTripsController {
     Button previous=null;
     AnchorPane root;
     List<Button> buttonList=new ArrayList<>();
+    List<Button> resignButtonList=new ArrayList<>();
     List<Label> labelList=new ArrayList<>();
     List<Label> priceList=new ArrayList<>();
+    List<Integer> idList=new ArrayList<>();
     Statement statement;
     Alert alert;
     static MyTripsController controller;
     static int button;
+    String style="""
+                        -fx-background-color:
+                                linear-gradient(#ffd65b, #e68400),
+                                linear-gradient(#ffef84, #f2ba44),
+                                linear-gradient(#ffea6a, #efaa22),
+                                linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
+                                linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+                            -fx-background-insets: 0,1,2,3,0;
+                            -fx-text-fill: #654b00;
+                            -fx-font-weight: bold;
+                            -fx-padding: 10 20 10 20;
+                            -fx-font-size: 40""";
     public void initialize()
     {
         controller=this;
@@ -61,39 +75,21 @@ public class MyTripsController {
                 Label p=new Label();
                 Label pd=new Label();
                 Button pay= new Button();
+                Button resign= new Button();
                 pay.setId(String.valueOf(i));
+                resign.setId(String.valueOf(i));
                 buttonList.add(pay);
+                resignButtonList.add(resign);
                 labelList.add(pd);
                 priceList.add(p);
                 i++;
                 bt.setPrefSize(600, 100);
-                pay.setPrefSize(150, 100);
-                bt.setStyle("""
-                        -fx-background-color:
-                                linear-gradient(#ffd65b, #e68400),
-                                linear-gradient(#ffef84, #f2ba44),
-                                linear-gradient(#ffea6a, #efaa22),
-                                linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
-                                linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
-                            -fx-background-insets: 0,1,2,3,0;
-                            -fx-text-fill: #654b00;
-                            -fx-font-weight: bold;
-                            -fx-font-size: 14px;
-                            -fx-padding: 10 20 10 20;
-                            -fx-font-size: 40""");
-                pay.setStyle("""
-                        -fx-background-color:
-                                linear-gradient(#ffd65b, #e68400),
-                                linear-gradient(#ffef84, #f2ba44),
-                                linear-gradient(#ffea6a, #efaa22),
-                                linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
-                                linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
-                            -fx-background-insets: 0,1,2,3,0;
-                            -fx-text-fill: #654b00;
-                            -fx-font-weight: bold;
-                            -fx-font-size: 14px;
-                            -fx-padding: 10 20 10 20;
-                            -fx-font-size: 40""");
+                pay.setPrefSize(150, 50);
+                resign.setPrefSize(150, 50);
+                bt.setStyle(style);
+                pay.setStyle(style.substring(0, style.length()-19) + "-fx-font-size: 20\"\";");
+                resign.setStyle(style.substring(0, style.length()-19) + "-fx-font-size: 20\"\";");
+
                 p.setStyle("-fx-font-size: 35;" +
                         " -fx-text-fill: #ee2211; -fx-font-style: italic; -fx-background-color: #eeeeee; -fx-border-color: #22aa33");
                 pd.setStyle("-fx-font-size: 35;" +
@@ -108,6 +104,7 @@ public class MyTripsController {
                     p.relocate(600, 100);
                     pd.relocate(868.5, 100);
                     pay.relocate(1137, 100);
+                    resign.relocate(1137, 150);
                 }
                 else
                 {
@@ -115,14 +112,17 @@ public class MyTripsController {
                     p.relocate(600, previous.getBoundsInParent().getMaxY()+100);
                     pd.relocate(868.5, previous.getBoundsInParent().getMaxY()+100);
                     pay.relocate(1137, previous.getBoundsInParent().getMaxY()+100);
+                    resign.relocate(1137, previous.getBoundsInParent().getMaxY()+150);
                 }
                 previous=bt;
                 pay.setOnAction((e)->pay(Integer.parseInt(pay.getId())));
                 bt.setText(rs.getString(4));
                 p.setText(rs.getString(6));
                 pd.setText(rs.getString(5));
+                idList.add(rs.getInt(7));
                 pay.setText("Pay");
-                pane.getChildren().addAll(bt, p, pd, pay);
+                resign.setText("Resign");
+                pane.getChildren().addAll(bt, p, pd, pay, resign);
             }
         } catch (SQLException e) {
             e.printStackTrace();

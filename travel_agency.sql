@@ -217,6 +217,7 @@ create table attraction_discounts(
 );
 
 create table client_trips(
+	id serial primary key,
 	trip_id integer not null references trip_dates,
 	client_id integer not null references clients,
 	paid_amount numeric(6,2) check(paid_amount>0),
@@ -954,7 +955,7 @@ $$
 language plpgsql;
 
 create view payments as
-select c.id, c.name, c.surname, t.name "trip name", ct.paid_amount, real_price(c.id, td.id) "price"
+select c.id "client id", c.name, c.surname, t.name "trip name", ct.paid_amount, real_price(c.id, td.id) "price", ct.id "id"
 from clients c join client_trips ct on c.id=ct.client_id join trip_dates td on ct.trip_id=td.id
 join trips t on td.trip_id=t.id;
 

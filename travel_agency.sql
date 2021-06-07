@@ -87,7 +87,7 @@ begin
 		result=result+x.price;
 	end loop;
 	for x in select * from trip_routes tr join travels tl on tr.travel_id=tl.id left outer join travel_price_changes tpc on tl.id=tpc.travel_id where trip_id=t loop
-			result=result+x.price;
+			result=result+x.base_price;
 	end loop;
 	return result;
 end;

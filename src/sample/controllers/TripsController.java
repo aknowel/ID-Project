@@ -56,7 +56,7 @@ public class TripsController {
         duration.setStyle("-fx-font-size: 40; -fx-font-weight: bold; -fx-background-color: #ffff00");
         pane.getChildren().addAll(name, base_price, duration);
         try {
-            set("select * from trips;");
+            set("select name, max_price(id), length from trips;");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,13 +67,13 @@ public class TripsController {
         if(!setName) {
             try {
                 Statement stmt = DBStarter.conn.createStatement();
-                ResultSet rs = stmt.executeQuery("select * from trips order by name");
+                ResultSet rs = stmt.executeQuery("select name, max_price(id), length from trips order by name");
                 int i=0;
                 while(rs.next())
                 {
-                    buttonList.get(i).setText(rs.getString(2));
-                    labelList.get(i).setText(rs.getString(3));
-                    days.get(i).setText(rs.getString(6));
+                    buttonList.get(i).setText(rs.getString(1));
+                    labelList.get(i).setText(rs.getString(2));
+                    days.get(i).setText(rs.getString(3) + " days");
                     i++;
                 }
                 setName=true;
@@ -86,13 +86,13 @@ public class TripsController {
         {
             try {
                 Statement stmt = DBStarter.conn.createStatement();
-                ResultSet rs = stmt.executeQuery("select * from trips order by name desc");
+                ResultSet rs = stmt.executeQuery("select name, max_price(id), length from trips order by name desc");
                 int i=0;
                 while(rs.next())
                 {
-                    buttonList.get(i).setText(rs.getString(2));
-                    labelList.get(i).setText(rs.getString(3));
-                    days.get(i).setText(rs.getString(6));
+                    buttonList.get(i).setText(rs.getString(1));
+                    labelList.get(i).setText(rs.getString(2));
+                    days.get(i).setText(rs.getString(3) + " days");
                     i++;
                 }
                 setName=false;
@@ -107,13 +107,13 @@ public class TripsController {
         if(!setPrice) {
             try {
                 Statement stmt = DBStarter.conn.createStatement();
-                ResultSet rs = stmt.executeQuery("select * from trips order by base_price");
+                ResultSet rs = stmt.executeQuery("select name, max_price(id), length from trips order by 2");
                 int i=0;
                 while(rs.next())
                 {
-                    buttonList.get(i).setText(rs.getString(2));
-                    labelList.get(i).setText(rs.getString(3));
-                    days.get(i).setText(rs.getString(6));
+                    buttonList.get(i).setText(rs.getString(1));
+                    labelList.get(i).setText(rs.getString(2));
+                    days.get(i).setText(rs.getString(3) + " days");
                     i++;
                 }
                 setPrice=true;
@@ -126,13 +126,13 @@ public class TripsController {
         {
             try {
                 Statement stmt = DBStarter.conn.createStatement();
-                ResultSet rs = stmt.executeQuery("select * from trips order by base_price desc");
+                ResultSet rs = stmt.executeQuery("select name, max_price(id), length from trips order by 2 desc");
                 int i=0;
                 while(rs.next())
                 {
-                    buttonList.get(i).setText(rs.getString(2));
-                    labelList.get(i).setText(rs.getString(3));
-                    days.get(i).setText(rs.getString(6));
+                    buttonList.get(i).setText(rs.getString(1));
+                    labelList.get(i).setText(rs.getString(2));
+                    days.get(i).setText(rs.getString(3) + " days");
                     i++;
                 }
                 setPrice=false;
@@ -205,9 +205,9 @@ public class TripsController {
                 d.relocate(868.5, previous.getBoundsInParent().getMaxY()+100);
             }
             previous=bt;
-            bt.setText(rs.getString(2));
-            p.setText(rs.getString(3));
-            d.setText(rs.getString(6) + " days");
+            bt.setText(rs.getString(1));
+            p.setText(rs.getString(2));
+            d.setText(rs.getString(3) + " days");
             pane.getChildren().addAll(bt, p, d);
         }
     }

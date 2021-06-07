@@ -11,10 +11,27 @@ import javafx.stage.Stage;
 public class MyOpinionsController {
     @FXML
     AnchorPane pane;
+    @FXML
+    AnchorPane main;
+    AnchorPane root;
     Stage stage;
+    static MyOpinionsController controller;
+    public void initialize()
+    {
+        controller=this;
+    }
     public void create()
     {
-
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/newOpinion.fxml"));
+        try {
+            root = fxmlLoader.load();
+            root.setLayoutX(350);
+            root.setLayoutY(200);
+            main.getChildren().add(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void returnMenu(ActionEvent event)
     {

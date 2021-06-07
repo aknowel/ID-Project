@@ -174,7 +174,7 @@ public class MenuController {
             }
             stage.show();
     }
-    public void exit(ActionEvent event) throws FileNotFoundException, SQLException {
+    public void exit(ActionEvent event) throws IOException, SQLException {
         file = new File("drop.sql");
         if (file.exists()) {
             scanner = new Scanner(file);
@@ -186,8 +186,7 @@ public class MenuController {
             }
             scanner.close();
         }
-        if(builder.toString().equals(""))
-        System.out.println("tak");
+        saveDB();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.close();
     }

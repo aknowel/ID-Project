@@ -6,24 +6,39 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.DBStarter;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MyTripsController {
     @FXML
+    AnchorPane main;
+    @FXML
     AnchorPane pane;
     Stage stage;
     Button previous=null;
+    AnchorPane root;
+    List<Button> buttonList=new ArrayList<>();
+    List<Label> labelList=new ArrayList<>();
+    List<Label> priceList=new ArrayList<>();
+    Statement statement;
+    Alert alert;
+    static MyTripsController controller;
+    static int button;
     public void initialize()
     {
+        controller=this;
         pane.setStyle("-fx-background-color: #00ee00");
         Label name=new Label();
         Label price=new Label();
@@ -39,12 +54,18 @@ public class MyTripsController {
         try {
             Statement stmt= DBStarter.conn.createStatement();
             ResultSet rs = stmt.executeQuery( "select * from payments where id=" + MenuController.id + ';' );
+            int i=0;
             while(rs.next())
             {
                 Button bt = new Button();
                 Label p=new Label();
                 Label pd=new Label();
                 Button pay= new Button();
+                pay.setId(String.valueOf(i));
+                buttonList.add(pay);
+                labelList.add(pd);
+                priceList.add(p);
+                i++;
                 bt.setPrefSize(600, 100);
                 pay.setPrefSize(150, 100);
                 bt.setStyle("""
@@ -96,6 +117,7 @@ public class MyTripsController {
                     pay.relocate(1137, previous.getBoundsInParent().getMaxY()+100);
                 }
                 previous=bt;
+                pay.setOnAction((e)->pay(Integer.parseInt(pay.getId())));
                 bt.setText(rs.getString(4));
                 p.setText(rs.getString(6));
                 pd.setText(rs.getString(5));
@@ -105,6 +127,50 @@ public class MyTripsController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public void pay(int i)
+    {
+        button=i;
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/pay.fxml"));
+        try {
+            root = fxmlLoader.load();
+            root.setLayoutX(350);
+            root.setLayoutY(200);
+            main.getChildren().add(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void delete(int i,ActionEvent event) throws IOException {
+        String query="Delete from client trips where client_id="+MenuController.id+" and paid_amount="+Double.parseDouble(priceList.get(i).getText());
+        try {
+            statement.executeUpdate(query);
+        }
+        catch(Exception e)
+        {
+            alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Pay");
+            alert.setHeaderText("Error! Try again!");
+            alert.showAndWait();
+            return;
+        }
+        MenuController.builder.append(query).append('\n');
+        MenuController.saveDB();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader=new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));
+        try {
+            AnchorPane root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("My trips");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        stage.show();
     }
     public void returnMenu(ActionEvent event)
     {

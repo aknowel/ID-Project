@@ -38,9 +38,11 @@ public class TripsController {
     Button previous=null;
     boolean setName=false;
     boolean setPrice=false;
+    static boolean check=false;
     List<Label> labelList=new ArrayList<>();
     List<Button> buttonList=new ArrayList<>();
     List<Label> days=new ArrayList<>();
+    List<Integer> idList=new ArrayList<>();
     int button;
     static TripsController controller;
     public void initialize()
@@ -59,7 +61,7 @@ public class TripsController {
         duration.setStyle("-fx-font-size: 40; -fx-font-weight: bold; -fx-background-color: #ffff00");
         pane.getChildren().addAll(name, base_price, duration);
         try {
-            set("select name, max_price(id), length from trips;");
+            set("select name, max_price(id), length, id from trips;");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,6 +98,7 @@ public class TripsController {
                     buttonList.get(i).setText(rs.getString(1));
                     labelList.get(i).setText(rs.getString(2));
                     days.get(i).setText(rs.getString(3) + " days");
+                    idList.set(i,rs.getInt(4));
                     i++;
                 }
                 setName=false;
@@ -110,13 +113,14 @@ public class TripsController {
         if(!setPrice) {
             try {
                 Statement stmt = DBStarter.conn.createStatement();
-                ResultSet rs = stmt.executeQuery("select name, max_price(id), length from trips order by 2");
+                ResultSet rs = stmt.executeQuery("select name, max_price(id), length, id from trips order by 2");
                 int i=0;
                 while(rs.next())
                 {
                     buttonList.get(i).setText(rs.getString(1));
                     labelList.get(i).setText(rs.getString(2));
                     days.get(i).setText(rs.getString(3) + " days");
+                    idList.set(i,rs.getInt(4));
                     i++;
                 }
                 setPrice=true;
@@ -165,9 +169,13 @@ public class TripsController {
     private void set(String query) throws SQLException {
         Statement stmt=DBStarter.conn.createStatement();
         ResultSet rs = stmt.executeQuery( query );
+        int i=0;
         while(rs.next())
         {
             Button bt = new Button();
+            bt.setId(String.valueOf(i));
+            i++;
+            int j;
             buttonList.add(bt);
             Label p=new Label();
             labelList.add(p);
@@ -208,6 +216,8 @@ public class TripsController {
                 d.relocate(868.5, previous.getBoundsInParent().getMaxY()+100);
             }
             previous=bt;
+            j=rs.getInt(4);
+            idList.add(j);
             bt.setOnAction((e)->tripProgram(Integer.parseInt(bt.getId()),e));
             bt.setText(rs.getString(1));
             p.setText(rs.getString(2));
@@ -218,6 +228,8 @@ public class TripsController {
     public void tripProgram(int i,ActionEvent event)
     {
         button=i;
+        check=true;
+        MyTripsController.controller.check=false;
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader=new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));

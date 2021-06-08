@@ -36,10 +36,12 @@ public class MyTripsController {
     List<Label> labelList=new ArrayList<>();
     List<Label> priceList=new ArrayList<>();
     List<Label> dateList=new ArrayList<>();
+    List<Integer> iList=new ArrayList<>();
     List<Integer> idList=new ArrayList<>();
     List<Button> tripList=new ArrayList<>();
     Statement statement;
     Alert alert;
+    boolean check=false;
     static MyTripsController controller;
     static int button;
     static String style="""
@@ -78,6 +80,7 @@ public class MyTripsController {
             while(rs.next())
             {
                 Button bt = new Button();
+                bt.setId(String.valueOf(i));
                 Label p=new Label();
                 Label pd=new Label();
                 Label d=new Label();
@@ -139,11 +142,26 @@ public class MyTripsController {
                         ioException.printStackTrace();
                     }
                 });
+                bt.setOnAction((e)->tripProgram(Integer.parseInt(bt.getId()),e));
                 bt.setText(rs.getString(4));
                 p.setText(rs.getString(6));
                 pd.setText(rs.getString(5));
                 d.setText(rs.getString(7));
-                idList.add(rs.getInt(8));
+                Statement statement2=DBStarter.conn.createStatement();
+                ResultSet result2;
+                try
+                {
+                   result2=statement2.executeQuery("Select id from trips where name=\'"+bt.getText()+"\';");
+                   if(result2.next())
+                   {
+                       idList.add(result2.getInt(1));
+                   }
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+                iList.add(rs.getInt(8));
                 pay.setText("Pay");
                 resign.setText("Resign");
                 pane.getChildren().addAll(bt, p, pd, d, pay, resign);
@@ -151,6 +169,26 @@ public class MyTripsController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public void tripProgram(int i,ActionEvent event)
+    {
+        button=i;
+        check=true;
+        TripsController.check=false;
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader=new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));
+        try {
+            AnchorPane root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle(labelList.get(i).getText());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        stage.show();
     }
     public void pay(int i)
     {
@@ -170,7 +208,7 @@ public class MyTripsController {
         statement=DBStarter.conn.createStatement();
         double r=0;
         try {
-            ResultSet result=statement.executeQuery("Select trip_id from client_trips where id="+idList.get(i)+" ;");
+            ResultSet result=statement.executeQuery("Select trip_id from client_trips where id="+iList.get(i)+" ;");
             if(result.next()) {
                 ResultSet result2 = statement.executeQuery("Select cash_back("+MenuController.id+','+result.getInt(1)+") ;");
                 if(result2.next())
@@ -193,7 +231,7 @@ public class MyTripsController {
         Optional<ButtonType> result=alert.showAndWait();
         if(result.orElse(null).equals(ButtonType.YES))
         {
-            String query="Delete from client_trips where id="+idList.get(i)+" ;";
+            String query="Delete from client_trips where id="+iList.get(i)+" ;";
             try {
                 statement.executeUpdate(query);
             }

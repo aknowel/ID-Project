@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.MyOpinionsController">
+    <children>
+        <ImageView fitHeight="720.0" fitWidth="1280.0" opacity="0.75" pickOnBounds="true">
+            <image>
+                <Image url="@../images/background.jpg" />
+            </image>
+        </ImageView>
+        <ScrollPane layoutX="202.0" layoutY="116.0" prefHeight="519.0" prefWidth="884.0">
+            <content>
+                <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" prefHeight="517.0" prefWidth="878.0" styleClass="text" stylesheets="@../css/bindings.css" />
+            </content>
+        </ScrollPane>
+        <Label layoutX="457.0" prefHeight="114.0" prefWidth="390.0" styleClass="title2" stylesheets="@../css/menu.css" text="My opinions">
+            <font>
+                <Font size="64.0" />
+            </font>
+        </Label>
+        <Button layoutX="652.0" layoutY="643.0" mnemonicParsing="false" onAction="#returnMenu" stylesheets="@../css/menu.css" text="MENU" />
+      <Button layoutX="524.0" layoutY="643.0" mnemonicParsing="false" onAction="#create" stylesheets="@../css/menu.css" text="Create" />
+    </children>
+</AnchorPane>

@@ -1,0 +1,9 @@
+.textfield
+{
+      -fx-pref-width: 465;
+      -fx-pref-height: 73;
+      -fx-background-color: powderblue;
+      -fx-text-align: center;
+      -fx-font-size: 18;
+       -fx-font-family: "Verdana";
+}

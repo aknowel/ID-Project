@@ -1,0 +1,47 @@
+
+.button
+{
+    -fx-background-color:
+            #ecebe9,
+            rgba(0,0,0,0.05),
+            linear-gradient(#dcca8a, #c7a740),
+            linear-gradient(#f9f2d6 0%, #f4e5bc 20%, #e6c75d 80%, #e2c045 100%),
+            linear-gradient(#f6ebbe, #e6c34d);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #654b00;
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+    -fx-padding: 10 20 10 20;
+    -fx-font-family: "Segoe Print";
+}
+.button:hover
+{
+    -fx-background-color:
+                    #ecebe9,
+                    rgba(0,0,0,0.05),
+                    linear-gradient(#dcca8a, #c7a740),
+                    linear-gradient(#f9f2d6 0%, #f4e5bc 20%, #e6c75d 80%, #e2c045 100%),
+                    linear-gradient(#f6ebbe, #e6c34d);
+            -fx-background-radius: 30;
+            -fx-background-insets: 0,1,2,3,0;
+            -fx-text-fill: #654b00;
+            -fx-font-weight: bold;
+            -fx-font-size: 24;
+            -fx-padding: 10 20 10 20;
+            -fx-font-family: "Segoe Print";
+            -fx-rotate: 5;
+            -fx-effect: dropshadow(gaussian, rgba(229, 3, 0, 1), 25, 0.5, 0.0, 0.0);
+}
+.title
+{
+        -fx-font-family: "Segoe Print";
+        -fx-text-fill: red;
+        -fx-opacity: 1;
+}
+.title2
+{
+        -fx-font-family: "Segoe Print";
+        -fx-text-fill: green;
+        -fx-opacity: 1;
+}

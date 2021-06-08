@@ -42,7 +42,7 @@ public class CreateOpinionController {
             alert.setTitle("Opinion");
             alert.setHeaderText("Do you want to be anonymous?");
             String text1="Insert into opinions(opinion) values(\'"+area.getText()+"\');";
-            String text2="Insert into opinions values("+MenuController.id+",\'"+area.getText()+"\');";
+            String text2="Insert into opinions(client_id,opinion) values("+MenuController.id+",\'"+area.getText()+"\');";
             Optional<ButtonType> result=alert.showAndWait();
             try
             {

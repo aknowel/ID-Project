@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBStarter {
-    public static String user = "brinpow";
-    public static String password = "qwerty123";
+    public static String user = "postgres";
+    public static String password = "postgres";
     public static String jdbcUrl = "jdbc:postgresql://localhost:5432/";
     public static Connection conn;
     public static Connection start() throws SQLException {

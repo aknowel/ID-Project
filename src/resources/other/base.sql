@@ -13,9 +13,10 @@ Delete from client_trips where id=2 ;
 Insert into opinions values(2,'Super!
 asqasd');
 Insert into opinions(opinion) values('Mega!');
-Insert into opinions values(2,'OK');
+Insert into opinions(client_id,opinion) values(2,'OK');
 Delete from opinions where client_id=2 and opinion='Super!
 asqasd' ;
 INSERT INTO client_trips(trip_id,client_id,paid_amount) VALUES(1,2, 0);
 INSERT INTO client_trips(trip_id,client_id,paid_amount) VALUES(203,2, 0);
 INSERT INTO client_trips(trip_id,client_id,paid_amount) VALUES(145,1, 0);
+Insert into opinions(client_id,opinion) values(2,'Fantastic');

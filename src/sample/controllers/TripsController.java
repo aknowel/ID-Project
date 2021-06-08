@@ -41,8 +41,11 @@ public class TripsController {
     List<Label> labelList=new ArrayList<>();
     List<Button> buttonList=new ArrayList<>();
     List<Label> days=new ArrayList<>();
+    int button;
+    static TripsController controller;
     public void initialize()
     {
+        controller=this;
         pane.setStyle("-fx-background-color: #11ff33");
         Label name=new Label();
         Label base_price=new Label();
@@ -205,10 +208,29 @@ public class TripsController {
                 d.relocate(868.5, previous.getBoundsInParent().getMaxY()+100);
             }
             previous=bt;
+            bt.setOnAction((e)->tripProgram(Integer.parseInt(bt.getId()),e));
             bt.setText(rs.getString(1));
             p.setText(rs.getString(2));
             d.setText(rs.getString(3) + " days");
             pane.getChildren().addAll(bt, p, d);
         }
+    }
+    public void tripProgram(int i,ActionEvent event)
+    {
+        button=i;
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader=new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));
+        try {
+            AnchorPane root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle(labelList.get(i).getText());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        stage.show();
     }
 }

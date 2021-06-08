@@ -6,21 +6,28 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.DBStarter;
 
+import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProgramController {
     @FXML
     AnchorPane pane;
     Stage stage;
     Button previous=null;
+    Alert alert;
+    List<Integer> tripIdList=new ArrayList<>();
     public void initialize()
     {
         pane.setStyle("-fx-background-color: #11ff33");
@@ -31,19 +38,30 @@ public class ProgramController {
         date.setText("Date");
         date.setAlignment(Pos.CENTER);
         pane.getChildren().add(date);
-        String query="select starting_date from trips t join trip_dates td on t.id=td.trip_id where t.id=" + TripsController.controller.getTid() +';';
+        String query="select starting_date, td.id from trips t join trip_dates td on t.id=td.trip_id where t.id=" + TripsController.controller.getTid() +" order by 1;";
         try{
             Statement stmt= DBStarter.conn.createStatement();
             ResultSet rs = stmt.executeQuery( query );
+            int ii=0;
             while(rs.next())
             {
                 Label d=new Label();
                 Button s=new Button();
+                s.setId(String.valueOf(ii));
+                ii++;
+                tripIdList.add(rs.getInt(2));
                 d.setPrefSize(600, 100);
                 s.setPrefSize(268.5, 100);
                 d.setStyle("-fx-font-size: 35;" +
                         " -fx-text-fill: #ee2211; -fx-font-style: italic; -fx-background-color: #eeeeee; -fx-border-color: #22aa33");
                 s.setStyle(MyTripsController.style);
+                s.setOnAction((e)-> {
+                    try {
+                        sigUp(Integer.parseInt(s.getId()));
+                    } catch (SQLException | IOException throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
                 d.setAlignment(Pos.CENTER);
                 if(previous==null)
                 {
@@ -99,21 +117,69 @@ public class ProgramController {
             e.printStackTrace();
         }
     }
-    public void back(ActionEvent event)
-    {
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        FXMLLoader fxmlLoader=new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));
-        try {
-            AnchorPane root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("My trips");
+    public void back(ActionEvent event) {
+        if (MyTripsController.check) {
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));
+            try {
+                AnchorPane root = fxmlLoader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("My trips");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            stage.show();
         }
-        catch (Exception e)
+        else
         {
-            e.printStackTrace();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/resources/fxml/Trips.fxml"));
+            try {
+                AnchorPane root = fxmlLoader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("Trips");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            stage.show();
         }
-        stage.show();
+    }
+    public void sigUp(int i) throws SQLException, IOException {
+        if(MenuController.status) {
+            String query = "INSERT INTO client_trips(trip_id,client_id,paid_amount) VALUES(?,?, ?)";
+            PreparedStatement pst = DBStarter.conn.prepareStatement(query);
+            pst.setInt(1, tripIdList.get(i));
+            pst.setInt(2, MenuController.id);
+            pst.setInt(3, 0);
+            try {
+                pst.executeUpdate();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                    alert=new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Trips");
+                    alert.setHeaderText("Trip has already had max amount of people");
+                    alert.showAndWait();
+                    return;
+            }
+            MenuController.builder.append(pst.toString()).append(';').append('\n');
+            MenuController.saveDB();
+        }
+        else
+        {
+            alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Trips");
+            alert.setHeaderText("Error! You have to sign in!");
+            alert.showAndWait();
+        }
+        alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Trips");
+        alert.setHeaderText("Successfully added!");
+        alert.showAndWait();
     }
 }

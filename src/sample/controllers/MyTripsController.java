@@ -75,7 +75,7 @@ public class MyTripsController {
         pane.getChildren().addAll(name, price, paid, date);
         try {
             Statement stmt= DBStarter.conn.createStatement();
-            ResultSet rs = stmt.executeQuery( "select * from payments where id=" + MenuController.id + ';' );
+            ResultSet rs = stmt.executeQuery( "select * from payments where client_id=" + MenuController.id + ';' );
             int i=0;
             while(rs.next())
             {
@@ -177,12 +177,12 @@ public class MyTripsController {
         TripsController.check=false;
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader=new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/Plan.fxml"));
         try {
             AnchorPane root = fxmlLoader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle(labelList.get(i).getText());
+            stage.setTitle(buttonList.get(i).getText());
         }
         catch (Exception e)
         {

@@ -76,13 +76,14 @@ public class TripsController {
         if(!setName) {
             try {
                 Statement stmt = DBStarter.conn.createStatement();
-                ResultSet rs = stmt.executeQuery("select name, max_price(id), length from trips order by name");
+                ResultSet rs = stmt.executeQuery("select name, max_price(id), length, id from trips order by name");
                 int i=0;
                 while(rs.next())
                 {
                     buttonList.get(i).setText(rs.getString(1));
                     labelList.get(i).setText(rs.getString(2));
                     days.get(i).setText(rs.getString(3) + " days");
+                    idList.set(i,rs.getInt(4));
                     i++;
                 }
                 setName=true;
@@ -95,7 +96,7 @@ public class TripsController {
         {
             try {
                 Statement stmt = DBStarter.conn.createStatement();
-                ResultSet rs = stmt.executeQuery("select name, max_price(id), length from trips order by name desc");
+                ResultSet rs = stmt.executeQuery("select name, max_price(id), length, id from trips order by name desc");
                 int i=0;
                 while(rs.next())
                 {
@@ -137,13 +138,14 @@ public class TripsController {
         {
             try {
                 Statement stmt = DBStarter.conn.createStatement();
-                ResultSet rs = stmt.executeQuery("select name, max_price(id), length from trips order by 2 desc");
+                ResultSet rs = stmt.executeQuery("select name, max_price(id), length,id from trips order by 2 desc");
                 int i=0;
                 while(rs.next())
                 {
                     buttonList.get(i).setText(rs.getString(1));
                     labelList.get(i).setText(rs.getString(2));
                     days.get(i).setText(rs.getString(3) + " days");
+                    idList.set(i,rs.getInt(4));
                     i++;
                 }
                 setPrice=false;
@@ -241,7 +243,7 @@ public class TripsController {
             AnchorPane root = fxmlLoader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle(labelList.get(i).getText());
+            stage.setTitle(buttonList.get(i).getText());
         }
         catch (Exception e)
         {

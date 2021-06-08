@@ -45,6 +45,10 @@ public class TripsController {
     List<Integer> idList=new ArrayList<>();
     int button;
     static TripsController controller;
+    int getTid()
+    {
+        return idList.get(button);
+    }
     public void initialize()
     {
         controller=this;
@@ -229,10 +233,10 @@ public class TripsController {
     {
         button=i;
         check=true;
-        MyTripsController.controller.check=false;
+        MyTripsController.check=false;
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader=new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/myTrips.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/resources/fxml/Plan.fxml"));
         try {
             AnchorPane root = fxmlLoader.load();
             Scene scene = new Scene(root);

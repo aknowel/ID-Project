@@ -41,7 +41,7 @@ public class MyTripsController {
     List<Button> tripList=new ArrayList<>();
     Statement statement;
     Alert alert;
-    boolean check=false;
+    static boolean check=false;
     static MyTripsController controller;
     static int button;
     static String style="""

@@ -71,7 +71,7 @@ insert into attractions (name, price, city_id, type) values
 
 ('Uffizi Galery', 30, city_id('Florence'), 'museum'), ('Piazza della Signoria', 0, city_id('Florence'), 'market square'),
 
-('Two Towers', 10, city_id('Bologna'), 'monument'), ('San Petronio Basilica', 0, city_id('Bologna'), 'monument'), ('Fountain of Nepune', 0, city_id('Bologna'), 'monument'),
+('Two Towers', 10, city_id('Bologna'), 'monument'), ('San Petronio Basilica', 0, city_id('Bologna'), 'monument'), ('Fountain of Neptune', 0, city_id('Bologna'), 'monument'),
 
 ('Gran Via', 0, city_id('Madrid'), 'other'), ('Royal Palace', 20, city_id('Madrid'), 'palace'), ('Almudena Cathedral', 0, city_id('Madrid'), 'monument'),
 

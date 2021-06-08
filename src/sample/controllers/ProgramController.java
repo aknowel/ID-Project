@@ -170,6 +170,10 @@ public class ProgramController {
             }
             MenuController.builder.append(pst.toString()).append(';').append('\n');
             MenuController.saveDB();
+            alert=new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Trips");
+            alert.setHeaderText("Successfully added!");
+            alert.showAndWait();
         }
         else
         {
@@ -178,9 +182,5 @@ public class ProgramController {
             alert.setHeaderText("Error! You have to sign in!");
             alert.showAndWait();
         }
-        alert=new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Trips");
-        alert.setHeaderText("Successfully added!");
-        alert.showAndWait();
     }
 }

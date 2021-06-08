@@ -30,6 +30,7 @@ public class ProgramController {
     List<Integer> tripIdList=new ArrayList<>();
     public void initialize()
     {
+        int tripId=(TripsController.check) ? TripsController.controller.getTid() : MyTripsController.controller.getTid();
         pane.setStyle("-fx-background-color: #11ff33");
         Label date=new Label();
         date.setPrefSize(600, 100);
@@ -38,7 +39,7 @@ public class ProgramController {
         date.setText("Date");
         date.setAlignment(Pos.CENTER);
         pane.getChildren().add(date);
-        String query="select starting_date, td.id from trips t join trip_dates td on t.id=td.trip_id where t.id=" + TripsController.controller.getTid() +" order by 1;";
+        String query="select starting_date, td.id from trips t join trip_dates td on t.id=td.trip_id where t.id=" + tripId +" order by 1;";
         try{
             Statement stmt= DBStarter.conn.createStatement();
             ResultSet rs = stmt.executeQuery( query );
@@ -79,7 +80,7 @@ public class ProgramController {
                 pane.getChildren().addAll(d, s);
             }
             ResultSet r= stmt.executeQuery("select a.name from trip_attractions ta join trips t on ta.trip_id=t.id join attractions a on ta.attraction_id=a.id where t.id="
-                    + TripsController.controller.getTid() + ';');
+                    + tripId + ';');
             Label h=new Label();
             h.setStyle("-fx-font-size: 20");
             h.relocate(0, previous.getBoundsInParent().getMaxY()+100);
@@ -103,7 +104,7 @@ public class ProgramController {
             pane.getChildren().add(nh);
             int j=1;
             ResultSet rr=stmt.executeQuery("select city_of_id(t.from_city), city_of_id(t.to_city), tr.on_day, t.kind from trip_routes tr join travels t on tr.travel_id=t.id where tr.trip_id="
-            + TripsController.controller.getTid() + " order by 3;");
+            + tripId + " order by 3;");
             while(rr.next())
             {
                 Label o=new Label();

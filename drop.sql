@@ -77,6 +77,7 @@ DROP FUNCTION if exists pilot_check;
 DROP FUNCTION if exists discount_check1;
 DROP FUNCTION if exists discount_check2;
 DROP FUNCTION if exists city_of_id;
+DROP FUNCTION if exists max_price;
 
 DROP TYPE if exists attractions_type;
 DROP TYPE if exists travel_type;

@@ -56,6 +56,10 @@ public class MyTripsController {
                             -fx-font-weight: bold;
                             -fx-padding: 10 20 10 20;
                             -fx-font-size: 40""";
+    int getTid()
+    {
+        return idList.get(button);
+    }
     public void initialize()
     {
         controller=this;

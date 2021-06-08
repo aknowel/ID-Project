@@ -10516,7 +10516,7 @@ perform travels_both_directions(city_id('Milan'), city_id('Genoa'), 2, 20, 'trai
 perform travels_both_directions(city_id('Florence'), city_id('Genoa'), 3, 20, 'bus');
 perform travels_both_directions(city_id('Madrid'), city_id('Barcelona'), 5, 50, 'train');
 perform travels_both_directions(city_id('Barcelona'), city_id('Valencia'), 4, 40, 'bus');
-perform travels_both_directions(city_id('Madrid'), city_id('Sevilla'), 4, 30, 'train');
+perform travels_both_directions(city_id('Madrid'), city_id('Seville'), 4, 30, 'train');
 perform travels_both_directions(city_id('Paris'), city_id('Marseille'), 3, 30, 'train');
 perform travels_both_directions(city_id('Marseille'), city_id('Nice'), 5, 45, 'bus');
 perform travels_both_directions(city_id('Nice'), city_id('Bordeaux'), 6, 60, 'bus');
@@ -17432,7 +17432,7 @@ insert into trip_routes (trip_id, travel_id, on_day) values
 (37, 131, 4),
 (37, 134, 8),
 (37, 87, 12),
-(38, 119, 3),
+(38, 91, 3),
 (39, 119, 3),
 (40, 61, 3),
 (40, 121, 5),

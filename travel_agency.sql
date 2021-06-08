@@ -138,8 +138,8 @@ create table cities (
 
 create table travels (
 	id serial primary key,
-	from_city integer references cities(id),
-	to_city integer references cities(id),
+	from_city integer not null references cities(id),
+	to_city integer not null references cities(id),
 	duration numeric(4, 2),
 	base_price numeric(6, 2),
 	kind travel_type,
@@ -979,7 +979,7 @@ end;
 $$ language plpgsql;
 
 create view payments as
-select c.id client_id, c.name, c.surname, t.name "trip name", ct.paid_amount, real_price(c.id, td.id) "price", td.starting_date "date", ct.id "id"
+select c.id "client_id", c.name, c.surname, t.name "trip name", ct.paid_amount, real_price(c.id, td.id) "price", td.starting_date "date", ct.id "id"
 from clients c join client_trips ct on c.id=ct.client_id join trip_dates td on ct.trip_id=td.id
 join trips t on td.trip_id=t.id;
 

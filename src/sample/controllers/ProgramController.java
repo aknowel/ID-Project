@@ -44,6 +44,7 @@ public class ProgramController {
                 d.setStyle("-fx-font-size: 35;" +
                         " -fx-text-fill: #ee2211; -fx-font-style: italic; -fx-background-color: #eeeeee; -fx-border-color: #22aa33");
                 s.setStyle(MyTripsController.style);
+                d.setAlignment(Pos.CENTER);
                 if(previous==null)
                 {
                     d.relocate(0, 100);
@@ -75,6 +76,24 @@ public class ProgramController {
                 a.setText('-' + r.getString(1));
                 pane.getChildren().add(a);
                 i++;
+            }
+            Label nh=new Label();
+            nh.setStyle("-fx-font-size: 20");
+            double z=previous.getBoundsInParent().getMaxY()+100+22*i;
+            nh.relocate(0 , z);
+            nh.setText("Route:");
+            pane.getChildren().add(nh);
+            int j=1;
+            ResultSet rr=stmt.executeQuery("select city_of_id(t.from_city), city_of_id(t.to_city), tr.on_day, t.kind from trip_routes tr join travels t on tr.travel_id=t.id where tr.trip_id="
+            + TripsController.controller.getTid() + " order by 3;");
+            while(rr.next())
+            {
+                Label o=new Label();
+                o.setStyle("-fx-font-size: 20");
+                o.relocate(0, z+22*j);
+                j++;
+                o.setText('-' + rr.getString(1) + " -> " + rr.getString(2) + " on day " + rr.getInt(3) + " by " + rr.getString(4));
+                pane.getChildren().add(o);
             }
         }catch (SQLException e){
             e.printStackTrace();

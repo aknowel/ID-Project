@@ -971,6 +971,13 @@ end;
 $$
 language plpgsql;
 
+create or replace function city_of_id(int) returns char as
+$$
+begin
+	return (select name from cities where id=$1);
+end;
+$$ language plpgsql;
+
 create view payments as
 select c.id "client id", c.name, c.surname, t.name "trip name", ct.paid_amount, real_price(c.id, td.id) "price", td.starting_date "date", ct.id "id"
 from clients c join client_trips ct on c.id=ct.client_id join trip_dates td on ct.trip_id=td.id

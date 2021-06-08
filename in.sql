@@ -67,7 +67,7 @@ insert into attractions (name, price, city_id, type) values
 
 ('La Scala', 40, city_id('Milan'), 'opera'), ('Sforza Castle', 20, city_id('Milan'), 'castle'), ('Milan Cathedral', 0, city_id('Milan'), 'monument'),
 
-('Lighthouns of Genoa', 5, city_id('Genoa'), 'monument'), ('Piazza De Ferrari', 0, city_id('Genoa'), 'market square'), ('Beach', 0, city_id('Genoa'), 'beach'),
+('Lighthouse of Genoa', 5, city_id('Genoa'), 'monument'), ('Piazza De Ferrari', 0, city_id('Genoa'), 'market square'), ('Beach', 0, city_id('Genoa'), 'beach'),
 
 ('Uffizi Galery', 30, city_id('Florence'), 'museum'), ('Piazza della Signoria', 0, city_id('Florence'), 'market square'),
 

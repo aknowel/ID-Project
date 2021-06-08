@@ -37,6 +37,7 @@ public class MyTripsController {
     List<Label> priceList=new ArrayList<>();
     List<Label> dateList=new ArrayList<>();
     List<Integer> idList=new ArrayList<>();
+    List<Button> tripList=new ArrayList<>();
     Statement statement;
     Alert alert;
     static MyTripsController controller;
@@ -84,11 +85,13 @@ public class MyTripsController {
                 Button resign= new Button();
                 pay.setId(String.valueOf(i));
                 resign.setId(String.valueOf(i));
+                bt.setId(String.valueOf(i));
                 buttonList.add(pay);
                 resignButtonList.add(resign);
                 labelList.add(pd);
                 priceList.add(p);
                 dateList.add(d);
+                tripList.add(bt);
                 i++;
                 bt.setPrefSize(600, 100);
                 pay.setPrefSize(150, 50);
